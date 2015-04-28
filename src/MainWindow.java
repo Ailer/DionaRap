@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 
 /**
@@ -25,6 +26,7 @@ public class MainWindow extends JFrame
 		this.setVisible(true);
 		
 		this._controlWindow = new ControlWindow();	
+		this.addComponentListener(new MainWindowListener(this._controlWindow));
 		this._controlWindow.setLocation(this.getX() + this.getWidth() + 20, this.getY());
 	}
 }
