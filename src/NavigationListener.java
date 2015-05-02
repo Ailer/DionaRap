@@ -1,24 +1,36 @@
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 
-public class NavigationListener implements ActionListener {
+import de.fhwgt.dionarap.controller.DionaRapController;
 
-	private int _movementX;
-	private int _movementY;
+
+public class NavigationListener implements ActionListener 
+{
+	private int _buttonNumber;
 	
-	public NavigationListener(int movementX, int movementY)
+	public NavigationListener(int buttonNumber)
 	{
-		this._movementX = movementX;
-		this._movementY = movementY;
+		this._buttonNumber = buttonNumber;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		// TODO Auto-generated method stub
-		System.out.println("X: " + this._movementX);
-		System.out.println("Y: " + this._movementY);
+		if( arg0.getSource() instanceof JButton)
+		{
+			JButton clickedButton = (JButton)arg0.getSource();
+			Container ancestor = clickedButton.getTopLevelAncestor();
+			
+			if(ancestor instanceof ControlWindow)
+			{
+				DionaRapController controller = ((ControlWindow)ancestor).getMainWindow()
+																		 .getDionaRapController();
+				controller.movePlayer(this._buttonNumber);
+			}
+		}
 	}
 
 }
