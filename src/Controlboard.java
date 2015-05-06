@@ -24,6 +24,7 @@ public class Controlboard extends JPanel
 		for(int i = 8; i >= 0; i--)
 		{
 			this._controlButtons[i] = new JButton(Integer.toString(i +1));
+			this._controlButtons[i].setPreferredSize(new Dimension(50,50));
 			this.add(this._controlButtons[i]);			
 			
 			if(i + 1 != 5)

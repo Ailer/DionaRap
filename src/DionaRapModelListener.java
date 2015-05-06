@@ -8,17 +8,17 @@ import de.fhwgt.dionarap.model.listener.DionaRapListener;
 
 public class DionaRapModelListener implements DionaRapListener
 {
-	private MainWindow _mainWindow;
+	private Board _board;
 	
-	public DionaRapModelListener(MainWindow mainWindow) 
+	public DionaRapModelListener(Board board) 
 	{
-		this._mainWindow = mainWindow;
+		this._board = board;
 	}
 
 	@Override
 	public void modelChanged(DionaRapChangedEvent arg0) 
 	{
-		this._mainWindow.updateGame();
+		this._board.updateBoard();
 	}
 
 	@Override
@@ -30,9 +30,8 @@ public class DionaRapModelListener implements DionaRapListener
 		}
 		else if (arg0.isGameOver())
 		{
-			JOptionPane.showMessageDialog(null, "Game Over");
+			JOptionPane.showMessageDialog(null, "Game Over. Spiel wird neugestartet.");	
+			this._board.initaliseGame();
 		}
-		
-		this._mainWindow.initsialiseGame();
 	}
 }

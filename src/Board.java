@@ -9,6 +9,9 @@ import de.fhwgt.dionarap.controller.logic.ActiveOpponentLogic;
 import de.fhwgt.dionarap.controller.logic.DionaRapGameLogic;
 import de.fhwgt.dionarap.model.data.DionaRapModel;
 import de.fhwgt.dionarap.model.data.Grid;
+import de.fhwgt.dionarap.model.data.MTConfiguration;
+import de.fhwgt.dionarap.model.objects.AbstractPawn;
+import de.fhwgt.dionarap.model.objects.Destruction;
 import de.fhwgt.dionarap.model.objects.Obstacle;
 import de.fhwgt.dionarap.model.objects.Opponent;
 import de.fhwgt.dionarap.model.objects.Player;
@@ -22,56 +25,59 @@ public class Board extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	private JLabel[][] _board;
-	//private DionaRapModel _dionaRapModel;
-	//private Player _player;
-	private ArrayList<PawnLabel> _pawnLabels;
-	private PlayerLabel _playerLabel;
-	//private DionaRapController _dionaRapController; 
-	final private int fieldXSize = 50;
-	final private int fieldYSize = 50;
+	private DionaRapModel _dionaRapModel;
+	private DionaRapGameLogic _gameLogic;
+	private Player _player;
+	private DionaRapController _dionaRapController; 
+	final private int fieldXSize = 70;
+	final private int fieldYSize = 70;
 	
 	/**
 	 * ctor for Board
 	 */
 	public Board()
 	{		
-		this._pawnLabels = new ArrayList<PawnLabel>();
 		this.createBoard();
 	}
 	
-	public void initaliseGame(Player player,
-							  ArrayList<Opponent> opponents,
-							  ArrayList<Obstacle> obstacles, 
-							  ArrayList<Vortex> vortexes)
+	public void initaliseGame()
 	{
-		this.initialisePlayer(player);
-		this.initialiseOpponents(opponents);
-		this.initaliseObstacles(obstacles);
-		this.initialiseVortexes(vortexes);
+		this._dionaRapModel = new DionaRapModel(10,10,3,3);
+		this._dionaRapController = new DionaRapController(this._dionaRapModel);
+		this._player = new Player();
+		this._dionaRapModel.setPlayer(this._player);
+		this._gameLogic = new DionaRapGameLogic(this._dionaRapModel);
+		this._dionaRapModel.addModelChangedEventListener(new DionaRapModelListener(this));
+		this._player.setX(2);
+		this._player.setY(0);
+		this._dionaRapModel.setAmmoValue(3);
+		this.updateBoard();
 	}
 	
-	public void upadteBoard(Player player,
-							ArrayList<Opponent> opponents,
-							ArrayList<Obstacle> obstacles)
+	public void updateBoard()
 	{
 		System.out.print("updateBoard");
-		
-		for(PawnLabel pawnLabel: this._pawnLabels)
-		{
-			Container parent = pawnLabel.getParent();
-			parent.remove(pawnLabel);
-		}
-
-
-		this._pawnLabels.removeAll(this._pawnLabels);
-		this.initialiseOpponents(opponents);
-		this.initaliseObstacles(obstacles);
-		Container parent = (JLabel)this._playerLabel.getParent();
-		parent.remove(this._playerLabel);
-		this.addComponentToBoard(this._playerLabel, player.getX(), player.getY());
+		this.clearBoard();
+		this.drawGameObjects();
 		this.updateUI();
 	}
 	
+	public DionaRapController getDionaRapController()
+	{
+		return this._dionaRapController;
+	}
+	
+	private void clearBoard()
+	{
+		for(int y=0; y< 10; y++)
+		{
+			for(int x =0; x < 10; x++)
+			{
+				this._board[x][y].setText("");
+			}
+		}
+	}
+		
 	private void createBoard()
 	{
 		this._board = new JLabel[10][10];
@@ -81,82 +87,65 @@ public class Board extends JPanel
 		{
 			for(int x =0; x < 10; x++)
 			{
-				this._board[y][x] = new JLabel();		
-				this._board[y][x].setVisible(true);
-				this._board[y][x].setSize(fieldXSize,fieldYSize);
-				this._board[y][x].setOpaque(true);
+				this._board[x][y] = new JLabel();		
+				this._board[x][y].setVisible(true);
+				this._board[x][y].setPreferredSize(new Dimension(fieldXSize,fieldYSize));
+				this._board[x][y].setOpaque(true);
 				
 				if((x + y) % 2 == 0)
 				{
-					this._board[y][x].setBackground(Color.BLACK);
+					this._board[x][y].setBackground(Color.BLACK);
 				}
 				else 
 				{
-					this._board[y][x].setBackground(Color.WHITE);
+					this._board[x][y].setBackground(Color.WHITE);
 				}
 				
-				this.add(this._board[y][x]);
+				this.add(this._board[x][y]);
 			}
 		}
 	}
+
+	
+	private void drawGameObjects()
+	{		
+		JLabel label;
+		System.out.println(this._dionaRapModel.getAllPawns().length);
+		System.out.println(this._dionaRapModel.getOpponentCount());
 		
-	private void initialisePlayer(Player player)
-	{
-		this._playerLabel = new PlayerLabel();
-		this.addComponentToBoard(this._playerLabel, player.getX(), player.getY());
-	}
-	
-	private void initialiseOpponents(ArrayList<Opponent> opponents)
-	{		
-		for(Opponent opponent: opponents)
+		for (AbstractPawn pawn: this._dionaRapModel.getAllPawns())
 		{
-			EnemyLabel eml = new EnemyLabel();
-			this.addComponentToBoard(eml, opponent.getX(), opponent.getY());
-			this._pawnLabels.add(eml);
+			label = this._board[pawn.getX()][pawn.getY()];
+			label.setForeground(this.getInvertColor(label.getBackground()));
+			
+			if(pawn instanceof Opponent) 
+			{
+				label.setText("G");
+			}
+			else if(pawn instanceof Obstacle) 
+			{
+				label.setText("H");
+			}
+			else if(pawn instanceof Vortex) 
+			{
+				label.setBackground(Color.RED);
+			}
+			else if(pawn instanceof Destruction)
+			{
+				label.setText("*");
+			}			
 		}
-	}
-	
-	private void initaliseObstacles(ArrayList<Obstacle> obstacles)
-	{		
-		for (Obstacle obstacle: obstacles)
-		{	
-			ObstacleLable obl = new ObstacleLable();
-			this.addComponentToBoard(obl, obstacle.getX(),obstacle.getY());
-			this._pawnLabels.add(obl);
-		}		
-	}
-	
-	private void initialiseVortexes(ArrayList<Vortex> vortexes)
-	{		
-		for( Vortex vortex: vortexes)
-		{
-			JLabel vol = new JLabel();
-			vol.setBackground(Color.RED);
-			vol.setOpaque(true);
-			vol.setSize(100,100);
-			this.addComponentToBoard(vol,vortex.getX(), vortex.getY());
-		}
-	}
-	
-	private void addComponentToBoard(JLabel label, int posX, int posY)
-	{
-		JLabel field = this._board[posY][posX];
-		field.add(label);
 		
-		if (label instanceof PawnLabel)
-		{			
-			((PawnLabel)label).InvertColor(field.getBackground());
-		}
+		label = this._board[this._dionaRapModel.getPlayer().getX()][this._dionaRapModel.getPlayer().getY()];
+		label.setText("P");
+		label.setForeground(this.getInvertColor(label.getBackground()));
 	}
 	
-	private void removeComponentFromBoard(JLabel label, int posX, int posY)
+	private Color getInvertColor(Color backgroundColor)
 	{
-		this._board[posX][posY].remove(label);
-	}
-	
-	private void moveComponentOnBoard(JLabel label, int posX, int posY)
-	{		
-		/*this.removeComponentFromBoard(label, posX, posY);
-		this.addComponentToBoard(label, posX, posY);*/
+		Color foreground = new Color(255 - backgroundColor.getRed(),
+									 255 - backgroundColor.getBlue(),
+									 255 - backgroundColor.getGreen());	
+		return foreground;
 	}
 }

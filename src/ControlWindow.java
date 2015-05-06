@@ -24,7 +24,7 @@ public class ControlWindow extends JWindow
 		this._controalBoard.setBorder(new LineBorder(Color.RED,5));
 		this.setContentPane(this._controalBoard);
 		
-		this.setSize(400,400);
+		this.pack();
 		this.setVisible(true);
 	}
 	
