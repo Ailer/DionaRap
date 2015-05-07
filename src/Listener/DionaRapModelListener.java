@@ -1,9 +1,12 @@
+package Listener;
 import javax.swing.JOptionPane;
 
 import de.fhwgt.dionarap.controller.logic.DionaRapGameLogic;
 import de.fhwgt.dionarap.model.events.DionaRapChangedEvent;
 import de.fhwgt.dionarap.model.events.GameStatusEvent;
 import de.fhwgt.dionarap.model.listener.DionaRapListener;
+
+import Views.*;
 
 
 public class DionaRapModelListener implements DionaRapListener

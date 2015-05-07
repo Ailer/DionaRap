@@ -1,3 +1,4 @@
+package Listener;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -5,6 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.FocusManager;
 import javax.swing.JFrame;
 
+import Views.MainWindow;
 import de.fhwgt.dionarap.controller.DionaRapController;
 
 

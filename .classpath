@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry excluding="EnemyLabel.java|ObstacleLable.java|PawnLabel.java|PlayerLabel.java|DestructionLabel.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="/home/nils/Downloads/gamelogic.jar"/>
+	<classpathentry kind="lib" path="/media/Daten2/Github/DionaRap/Github/GameLogic/gamelogic.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

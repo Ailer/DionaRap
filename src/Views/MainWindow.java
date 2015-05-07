@@ -1,3 +1,4 @@
+package Views;
 
 import javax.swing.*;
 
@@ -5,6 +6,7 @@ import de.fhwgt.dionarap.controller.DionaRapController;
 import de.fhwgt.dionarap.model.data.DionaRapModel;
 import de.fhwgt.dionarap.model.data.Grid;
 import de.fhwgt.dionarap.model.objects.Player;
+import Listener.*;
 
 /**
  * @author nkunkel	public void updateBoard()

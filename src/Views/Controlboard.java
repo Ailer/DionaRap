@@ -1,7 +1,10 @@
+package Views;
 
 import java.awt.*;
 
+
 import javax.swing.*;
+import Listener.*;
 
 /**
  * @author nkunkel
@@ -20,6 +23,7 @@ public class Controlboard extends JPanel
 		this.setLayout(new GridLayout(3, 3, 2, 2));
 		this._controlButtons = new JButton[9];
 		this.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		NavigationListener navigationListener = new NavigationListener();
 		
 		for(int i = 8; i >= 0; i--)
 		{
@@ -29,7 +33,8 @@ public class Controlboard extends JPanel
 			
 			if(i + 1 != 5)
 			{
-				this._controlButtons[i].addActionListener(new NavigationListener(i +1));
+				this._controlButtons[i].addActionListener(navigationListener);
+				this._controlButtons[i].setActionCommand(Integer.toString(i+1));
 			}
 			else
 			{

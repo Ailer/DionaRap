@@ -1,3 +1,4 @@
+package Views;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,11 +12,13 @@ import de.fhwgt.dionarap.model.data.DionaRapModel;
 import de.fhwgt.dionarap.model.data.Grid;
 import de.fhwgt.dionarap.model.data.MTConfiguration;
 import de.fhwgt.dionarap.model.objects.AbstractPawn;
+import de.fhwgt.dionarap.model.objects.Ammo;
 import de.fhwgt.dionarap.model.objects.Destruction;
 import de.fhwgt.dionarap.model.objects.Obstacle;
 import de.fhwgt.dionarap.model.objects.Opponent;
 import de.fhwgt.dionarap.model.objects.Player;
 import de.fhwgt.dionarap.model.objects.Vortex;
+import Listener.*;
 
 /**
  * @author nkunkel
@@ -44,12 +47,9 @@ public class Board extends JPanel
 	{
 		this._dionaRapModel = new DionaRapModel(10,10,3,3);
 		this._dionaRapController = new DionaRapController(this._dionaRapModel);
-		this._player = new Player();
-		this._dionaRapModel.setPlayer(this._player);
 		this._gameLogic = new DionaRapGameLogic(this._dionaRapModel);
 		this._dionaRapModel.addModelChangedEventListener(new DionaRapModelListener(this));
-		this._player.setX(2);
-		this._player.setY(0);
+
 		this._dionaRapModel.setAmmoValue(3);
 		this.updateBoard();
 	}
@@ -59,7 +59,6 @@ public class Board extends JPanel
 		System.out.print("updateBoard");
 		this.clearBoard();
 		this.drawGameObjects();
-		this.updateUI();
 	}
 	
 	public DionaRapController getDionaRapController()
@@ -117,6 +116,7 @@ public class Board extends JPanel
 		{
 			label = this._board[pawn.getX()][pawn.getY()];
 			label.setForeground(this.getInvertColor(label.getBackground()));
+			label.setFont(new Font(label.getFont().getName(), label.getFont().getStyle(), 35));
 			
 			if(pawn instanceof Opponent) 
 			{
@@ -134,11 +134,15 @@ public class Board extends JPanel
 			{
 				label.setText("*");
 			}			
+			else if(pawn instanceof Player)
+			{
+				label.setText("P");
+			}
+			else if(pawn instanceof Ammo)
+			{
+				label.setText("A");
+			}
 		}
-		
-		label = this._board[this._dionaRapModel.getPlayer().getX()][this._dionaRapModel.getPlayer().getY()];
-		label.setText("P");
-		label.setForeground(this.getInvertColor(label.getBackground()));
 	}
 	
 	private Color getInvertColor(Color backgroundColor)
