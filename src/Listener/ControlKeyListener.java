@@ -45,8 +45,6 @@ public class ControlKeyListener implements KeyListener
 				case KeyEvent.VK_NUMPAD9: controller.movePlayer(9);
 					break;
 			}
-			
-			this._mainWindow.updateGame();
 	}
 
 	@Override
