@@ -30,7 +30,11 @@ public class MainWindow extends JFrame
 	private DionaRapController _dionaRapController;
 	private DionaRapGameLogic _dionaRapGameLogic;
 	private DionaRapToolBar _dionaRapToolbar;
+	private DionaRapModelListener _dionaRapModelListener;
 	private int _opponentCountStart = 3;
+	private int _vortexCount = 3;
+	private int _grideSizeX = 10;
+	private int _grideSizeY = 10;
 	
 	/**
 	 * ctor for MainWindow
@@ -45,7 +49,7 @@ public class MainWindow extends JFrame
 		this.setTitle("Diona Rap");	
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		this.setMinimumSize(new Dimension(250,250));
+		//this.setMinimumSize(new Dimension(250,250));
 		this.pack();
 		//this._board.upupdateBackgroundImage();
 
@@ -53,8 +57,9 @@ public class MainWindow extends JFrame
 		this.addComponentListener(new MainWindowListener(this._controlWindow));
 		this.addKeyListener(new ControlKeyListener(this));
 		this._controlWindow.setLocation(this.getX() + this.getWidth() + 20, this.getY());
+		this._dionaRapModelListener = new DionaRapModelListener(this);
 		this.initaliseGame();
-		this.requestFocus();
+
 	}
 	
 	
@@ -63,12 +68,13 @@ public class MainWindow extends JFrame
 		this.setTbRestartButtonEnabled(false);
 		this._dionaRapToolbar.setScore(0);
 		this._dionaRapToolbar.setProgress(0);
-		this._dionaRapModel = new DionaRapModel(10,10,this._opponentCountStart,3);
+		this._dionaRapModel = new DionaRapModel(this._grideSizeX,this._grideSizeY,this._opponentCountStart,this._vortexCount);
 		this._dionaRapController = new DionaRapController(this._dionaRapModel);
 		this._dionaRapGameLogic = new DionaRapGameLogic(this._dionaRapModel);
-		this._dionaRapModel.addModelChangedEventListener(new DionaRapModelListener(this));
+		this._dionaRapModel.addModelChangedEventListener(this._dionaRapModelListener);
 		this._dionaRapModel.addAmmo(new Ammo());
 		this.updateGame();
+		this.requestFocus();
 	}
 		
 	public DionaRapController getDionaRapController()
