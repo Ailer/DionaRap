@@ -2,16 +2,8 @@ package Views;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.*;
-
-import de.fhwgt.dionarap.controller.DionaRapController;
-import de.fhwgt.dionarap.controller.logic.ActiveOpponentLogic;
-import de.fhwgt.dionarap.controller.logic.DionaRapGameLogic;
-import de.fhwgt.dionarap.model.data.DionaRapModel;
-import de.fhwgt.dionarap.model.data.Grid;
-import de.fhwgt.dionarap.model.data.MTConfiguration;
 import de.fhwgt.dionarap.model.objects.AbstractPawn;
 import de.fhwgt.dionarap.model.objects.Ammo;
 import de.fhwgt.dionarap.model.objects.Destruction;
@@ -19,7 +11,6 @@ import de.fhwgt.dionarap.model.objects.Obstacle;
 import de.fhwgt.dionarap.model.objects.Opponent;
 import de.fhwgt.dionarap.model.objects.Player;
 import de.fhwgt.dionarap.model.objects.Vortex;
-import Listener.*;
 
 /**
  * @author nkunkel
@@ -29,7 +20,6 @@ public class Board extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	private JLabel[][] _board;
-	private Player _player;
 	final private int fieldXSize = 70;
 	final private int fieldYSize = 70;
 	private ImageIcon _background;
@@ -59,7 +49,8 @@ public class Board extends JPanel
 	
 	public void repaint()
 	{
-	
+		System.out.print("Repaint");
+		
 		if (this._background != null)
 		{
 			this._background.setImage(this._background.getImage().getScaledInstance(this.getWidth(),

@@ -1,10 +1,7 @@
 package Views;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -103,6 +100,7 @@ public class DionaRapToolBar extends JToolBar
 		this.add(progressPanel);
 		
 		this._currentProgress = new JProgressBar();
+		this._currentProgress.setStringPainted(true);
 		this._currentProgress.setBounds(10,20,135,25);
 		progressPanel.add(this._currentProgress);
 		

@@ -2,7 +2,6 @@ package Listener;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import de.fhwgt.dionarap.controller.logic.DionaRapGameLogic;
 import de.fhwgt.dionarap.model.events.DionaRapChangedEvent;
 import de.fhwgt.dionarap.model.events.GameStatusEvent;
 import de.fhwgt.dionarap.model.listener.DionaRapListener;
@@ -32,7 +31,6 @@ public class DionaRapModelListener implements DionaRapListener
 		
 		if(arg0.isGameWon())
 		{
-			//TODO: setParent
 			result = JOptionPane.showOptionDialog(this._mainWindow,
 					"Spiel gewonnen", 
 					"Gewonnen", 

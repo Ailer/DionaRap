@@ -1,17 +1,13 @@
 package Views;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
 import javax.swing.*;
 
 import de.fhwgt.dionarap.controller.DionaRapController;
 import de.fhwgt.dionarap.controller.logic.DionaRapGameLogic;
 import de.fhwgt.dionarap.model.data.DionaRapModel;
-import de.fhwgt.dionarap.model.data.Grid;
-import de.fhwgt.dionarap.model.objects.AbstractPawn;
 import de.fhwgt.dionarap.model.objects.Ammo;
-import de.fhwgt.dionarap.model.objects.Player;
 import Listener.*;
 
 /**
@@ -32,7 +28,7 @@ public class MainWindow extends JFrame
 	private DionaRapToolBar _dionaRapToolbar;
 	private DionaRapModelListener _dionaRapModelListener;
 	private int _opponentCountStart = 3;
-	private int _vortexCount = 3;
+	private int _obstacleCount = 5;
 	private int _grideSizeX = 10;
 	private int _grideSizeY = 10;
 	
@@ -47,8 +43,9 @@ public class MainWindow extends JFrame
 		this.add(this._board, BorderLayout.CENTER);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Diona Rap");	
-		this.setLocationRelativeTo(null);
+		
 		this.setVisible(true);
+		
 		//this.setMinimumSize(new Dimension(250,250));
 		this.pack();
 		//this._board.upupdateBackgroundImage();
@@ -56,10 +53,11 @@ public class MainWindow extends JFrame
 		this._controlWindow = new ControlWindow(this);	
 		this.addComponentListener(new MainWindowListener(this._controlWindow));
 		this.addKeyListener(new ControlKeyListener(this));
+		this.setLocationRelativeTo(null);
 		this._controlWindow.setLocation(this.getX() + this.getWidth() + 20, this.getY());
 		this._dionaRapModelListener = new DionaRapModelListener(this);
 		this.initaliseGame();
-
+	
 	}
 	
 	
@@ -68,7 +66,7 @@ public class MainWindow extends JFrame
 		this.setTbRestartButtonEnabled(false);
 		this._dionaRapToolbar.setScore(0);
 		this._dionaRapToolbar.setProgress(0);
-		this._dionaRapModel = new DionaRapModel(this._grideSizeX,this._grideSizeY,this._opponentCountStart,this._vortexCount);
+		this._dionaRapModel = new DionaRapModel(this._grideSizeX,this._grideSizeY,this._opponentCountStart,this._obstacleCount);
 		this._dionaRapController = new DionaRapController(this._dionaRapModel);
 		this._dionaRapGameLogic = new DionaRapGameLogic(this._dionaRapModel);
 		this._dionaRapModel.addModelChangedEventListener(this._dionaRapModelListener);
