@@ -37,7 +37,7 @@ public class MainWindow extends JFrame
 	 */
 	public MainWindow()
 	{		
-		this._board = new Board();
+		this._board = new Board();	
 		this._dionaRapToolbar = new DionaRapToolBar();
 		this.add(this._dionaRapToolbar, BorderLayout.PAGE_START);
 		this.add(this._board, BorderLayout.CENTER);
