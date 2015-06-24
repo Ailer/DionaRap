@@ -24,7 +24,11 @@ public class ShootingListener implements ActionListener
 								  .getParent()
 								  .getParent();
 		DionaRapController drController = mw.getDionaRapController();
-		drController.shoot();
+		
+		if (!drController.shoot())
+		{
+			mw.flashAmmoPanel();
+		}
 	}
 
 }

@@ -1,10 +1,7 @@
 package Listener;
-import java.awt.KeyboardFocusManager;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import javax.swing.FocusManager;
-import javax.swing.JFrame;
 
 import Views.MainWindow;
 import de.fhwgt.dionarap.controller.DionaRapController;
@@ -34,7 +31,11 @@ public class ControlKeyListener implements KeyListener
 					break;
 				case KeyEvent.VK_NUMPAD4: controller.movePlayer(4);
 					break;
-				case KeyEvent.VK_NUMPAD5: controller.shoot();
+				case KeyEvent.VK_NUMPAD5: 			
+					if (!controller.shoot())
+					{
+						this._mainWindow.flashAmmoPanel();
+					}
 					break;
 				case KeyEvent.VK_NUMPAD6: controller.movePlayer(6);
 					break;

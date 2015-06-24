@@ -1,8 +1,9 @@
 package Listener;
+import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import de.fhwgt.dionarap.controller.logic.DionaRapGameLogic;
 import de.fhwgt.dionarap.model.events.DionaRapChangedEvent;
 import de.fhwgt.dionarap.model.events.GameStatusEvent;
 import de.fhwgt.dionarap.model.listener.DionaRapListener;
@@ -32,13 +33,12 @@ public class DionaRapModelListener implements DionaRapListener
 		
 		if(arg0.isGameWon())
 		{
-			//TODO: setParent
 			result = JOptionPane.showOptionDialog(this._mainWindow,
 					"Spiel gewonnen", 
 					"Gewonnen", 
 					JOptionPane.DEFAULT_OPTION,
 					JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon("Images/GameObjects/win.gif"),
+					new ImageIcon(String.format("Images%s%s%swin.gif", File.separator, this._mainWindow.getTheme(), File.separator)),
 					options, 
 					0);
 		}
@@ -49,7 +49,7 @@ public class DionaRapModelListener implements DionaRapListener
 										"Game Over", 
 										JOptionPane.DEFAULT_OPTION,
 										JOptionPane.QUESTION_MESSAGE, 
-										new ImageIcon("Images/GameObjects/loss.gif"),
+										new ImageIcon(String.format("Images%s%s%sloss.gif", File.separator, this._mainWindow.getTheme(), File.separator)),
 										options, 
 										0);
 		}
