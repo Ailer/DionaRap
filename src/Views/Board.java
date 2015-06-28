@@ -59,9 +59,9 @@ public class Board extends JPanel
 	 */
 	public Board(String theme, int xFields, int yFields)
 	{		
-		this.createBoard();
 		this._xFields = xFields;
 		this._yFields = yFields;
+		this.createBoard();
 		this.setTheme(theme);
 	}
 	
@@ -99,51 +99,54 @@ public class Board extends JPanel
     }
 	
 	private void clearBoard()
-	{
-		for(int y=0; y< 10; y++)
+	{		
+		for(int y =0; y < this._yFields; y++)
 		{
-			for(int x =0; x < 10; x++)
+			for(int x=0; x< this._xFields; x++)
 			{
-				this._board[x][y].setIcon(null);
+
+				this._board[y][x].setIcon(null);
 			}
 		}
 	}
 	
 	private void setBoardOpaque(Boolean opaque)
-	{
-		for (int y=0; y < 10; y++)
+	{	
+		for (int y=0; y < this._yFields; y++)
 		{
-			for (int x=0; x < 10; x++)
+			for (int x=0; x < this._xFields; x++)
 			{
-				this._board[x][y].setOpaque(opaque);
+		
+				this._board[y][x].setOpaque(opaque);
 			}
 		}
 	}
 		
 	private void createBoard()
 	{
-		this._board = new JLabel[10][10];
-		this.setLayout(new GridLayout(10,10));
+		this._board = new JLabel[this._yFields][this._xFields];
+		this.setLayout(new GridLayout(this._yFields,this._xFields));
 		
-		for(int y=0; y< 10; y++)
+		for(int y =0; y < this._yFields; y++)
 		{
-			for(int x =0; x < 10; x++)
+			for(int x=0; x< this._xFields; x++)
 			{
-				this._board[x][y] = new JLabel();		
-				this._board[x][y].setVisible(true);
-				this._board[x][y].setPreferredSize(new Dimension(fieldXSize, fieldYSize));
-				this._board[x][y].setOpaque(true);
+		
+				this._board[y][x] = new JLabel();		
+				this._board[y][x].setVisible(true);
+				this._board[y][x].setPreferredSize(new Dimension(fieldXSize, fieldYSize));
+				this._board[y][x].setOpaque(true);
 				
 				if((x + y) % 2 == 0)
 				{
-					this._board[x][y].setBackground(Color.BLACK);
+					this._board[y][x].setBackground(Color.BLACK);
 				}
 				else 
 				{
-					this._board[x][y].setBackground(Color.WHITE);
+					this._board[y][x].setBackground(Color.WHITE);
 				}		
 				
-				this.add(this._board[x][y]);
+				this.add(this._board[y][x]);
 			}
 		}
 	}
@@ -153,8 +156,8 @@ public class Board extends JPanel
 		JLabel label;
 		
 		for (AbstractPawn pawn: pawns)
-		{
-			label = this._board[pawn.getX()][pawn.getY()];
+		{			
+			label = this._board[pawn.getY()][pawn.getX()];
 			
 			if(pawn instanceof Opponent) 
 			{
