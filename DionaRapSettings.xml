@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="ShootDelay">100</entry>
+<entry key="OpponentWaitTime">2000</entry>
+<entry key="Avoidbstacle">false</entry>
+<entry key="OpponentsCount">4</entry>
+<entry key="ObstaclesCount">3</entry>
+<entry key="IsRandomWaittime">false</entry>
+<entry key="GrideSizeY">10</entry>
+<entry key="OpponentStartWaitTime">5000</entry>
+<entry key="AvoidOpponent">false</entry>
+<entry key="GrideSizeX">11</entry>
+</properties>
