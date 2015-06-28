@@ -115,8 +115,7 @@ public class Board extends JPanel
 		for (int y=0; y < this._yFields; y++)
 		{
 			for (int x=0; x < this._xFields; x++)
-			{
-		
+			{	
 				this._board[y][x].setOpaque(opaque);
 			}
 		}

@@ -54,17 +54,17 @@ public class MainWindow extends JFrame
 		this.add(this._dionaRapToolbar, BorderLayout.PAGE_END);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Diona Rap");	
-		this.setVisible(true);
-		this.pack();
 		
+		this._dionaRapModelListener = new DionaRapModelListener(this);
+		this.loadSettings();
+
+		this.setLocationRelativeTo(null);
 		this._controlWindow = new ControlWindow(this);	
 		this.addComponentListener(new MainWindowListener(this._controlWindow));
 		this.addKeyListener(new ControlKeyListener(this));
 		this.addMouseListener(new DionaRapMouseListener(this));
-		this.setLocationRelativeTo(null);
 		this._controlWindow.setLocation(this.getX() + this.getWidth() + 20, this.getY());
-		this._dionaRapModelListener = new DionaRapModelListener(this);
-		this.initaliseGame();
+		
 		this.setVisible(true);
 	}
 	
@@ -75,8 +75,15 @@ public class MainWindow extends JFrame
 				this._settings.getGrideSizeX(),
 				this._settings.getOpponentsCount(),
 				this._settings.getObstaclesCount());
-		this._board = new Board(this.getTheme(), this._settings.getGrideSizeX(), this._settings.getGrideSizeY());
+		
+		if (this._board != null)
+		{
+			this.remove(this._board);
+		}
 	
+		this._board = new Board(this.getTheme(), this._settings.getGrideSizeX(), this._settings.getGrideSizeY());
+		this.add(this._board, BorderLayout.CENTER);	
+		
 		this._mtConfig = new MTConfiguration();
 		this._mtConfig.setAvoidCollisionWithObstacles(this._settings.isAvoidObstacleCollisionEnabled());
 		this._mtConfig.setAvoidCollisionWithOpponent(this._settings.isAvoidOpponentCollisionEnabled());
@@ -90,17 +97,14 @@ public class MainWindow extends JFrame
 		this._dionaRapController = new DionaRapController(this._dionaRapModel);
 		this._dionaRapController.setMultiThreaded(this._mtConfig);
 		
-		
 		System.out.printf("x: %d y: %d", this._settings.getGrideSizeX(), this._settings.getGrideSizeY());
+		this.initaliseGame();
 	}
 	
 	public void initaliseGame()
 	{
 		this.setTbRestartButtonEnabled(false);
-		
-		this.loadSettings();
-		this.add(this._board, BorderLayout.CENTER);
-				
+			
 		this._dionaRapToolbar.setScore(0);
 		this._dionaRapToolbar.setProgress(0);
 		
@@ -109,31 +113,17 @@ public class MainWindow extends JFrame
 		this._dionaRapModel.addModelChangedEventListener(this._dionaRapModelListener);
 		this._dionaRapModel.setShootAmount(0);
 		
-		for (int i=0; i < this.ammoCount; i++)
+		/*for (int i=0; i < this.ammoCount; i++)
 		{
-			//this._dionaRapModel.addAmmo(new Ammo());
-		}
+			this._dionaRapModel.addAmmo(new Ammo());
+		}*/
 	
 		this.updateGame();
 		this.requestFocus();
 		
+		//this.repaint();
 		this.setLocationRelativeTo(null);
 		this.pack();
-	}
-	
-	public void setMTConfiguration()
-	{
-		/*mtConfig = new MTConfiguration();
-		mtConfig.setAlgorithmAStarActive(true);
-		mtConfig.setAvoidCollisionWithObstacles(true);
-		mtConfig.setAvoidCollisionWithOpponent(false);
-		mtConfig.setMinimumTime(800);
-		mtConfig.setShotGetsOwnThread(true);
-		mtConfig.setOpponentWaitTime(2000);
-		mtConfig.setShotWaitTime(500);
-		mtConfig.setRandomOpponentWaitTime(false); 
-		mtConfig.setDynamicOpponentWaitTime(false); 
-		this._dionaRapController.setMultiThreaded(mtConfig);*/
 	}
 		
 	public DionaRapController getDionaRapController()
